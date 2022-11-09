@@ -1,5 +1,9 @@
 # Normalise line endings
 * text=auto
 
+# Show in language stats
+*.json       linguist-detectable=true
+package.json linguist-detectable=false
+
 # Stop package-lock.json diffs
-package-lock.json binary
+package-lock.json binary linguist-detectable=false
