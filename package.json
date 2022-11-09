@@ -1,0 +1,19 @@
+{
+  "name": "wishlist",
+  "version": "1.0.0-PREVIEW",
+  "description": "Encrypted wishlist.",
+  "license": "LGPL-3.0-only",
+  "private": true,
+  "author": "Aidan Loughran <aidlo.dev@pm.me> (https://aidlran.github.io)",
+  "homepage": "https://github.com/aidlran/wishlist",
+  "bugs": "https://github.com/aidlran/wishlist/issues",
+  "repository": "github:aidlran/wishlist",
+  "scripts": {
+    "build": "script/build.mjs"
+  },
+  "dependencies": {
+    "esbuild": "0.15.12",
+    "html-minifier": "4.0.0",
+    "openpgp": "5.5.0"
+  }
+}

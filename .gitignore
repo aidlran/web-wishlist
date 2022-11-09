@@ -1,0 +1,7 @@
+# NPM
+node_modules/
+
+# Build/Test
+wishlist-config.json
+dist/
+wishlists/
