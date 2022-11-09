@@ -9,14 +9,15 @@
  */
 
 import { openSync, writeSync, close } from 'fs';
-import { readFile, rm } from 'fs/promises';
-import { dirname, join } from 'path';
+import { readdir, readFile, rm } from 'fs/promises';
+import { dirname, extname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 import { minify } from 'html-minifier';
 import { build } from 'esbuild';
 
 const DIR_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../');
+const DIR_DATA = join(DIR_ROOT, 'wishlists/');
 const DIR_SRC  = join(DIR_ROOT, 'src/');
 const DIR_OUT  = join(DIR_ROOT, 'dist/');
 
@@ -32,6 +33,7 @@ let writer;
 
 /** @type {number} */
 let callbacks = 0;
+let neededCallbacks = 4;
 
 /** @type {Array<Buffer>} */
 const chunks = [
@@ -40,47 +42,52 @@ const chunks = [
 	null,					// HTML
 	null,					// Injected CSS
 	null,					// HTML
-	null,					// Injected JS
+	null,					// Injected JS objects
+	null,					// Injected JS code
 	null					// HTML
 ];
 
-function readyCallback() {
-	if (++callbacks == 4) {
+function readyCallback()
+{
+	if (++callbacks == neededCallbacks)
+	{
 		let position = 0;
-		for (const buffer of chunks) {
+
+		function writeBuffer(buffer) {
 			writeSync(writer, buffer, 0, buffer.length, position);
 			position += buffer.length;
 		}
+
+		for (const buffer of chunks) {
+			if (buffer instanceof Buffer) writeBuffer(buffer);
+			else if (buffer instanceof Array) for (const b of buffer) writeBuffer(b);
+			else throw "I can't write non-buffers!";
+		}
+
 		close(writer);
 	}
 }
 
-readFile('wishlist-config.json')
-	.then(config => {
-		config = JSON.parse(config);
-		if (typeof config.title === "string")
-			chunks[1] = Buffer.from(config.title);
-	})
-	.catch(error => {
-		console.log(error);
-		// No valid config file; use defaults
-	})
-	.then(() => readyCallback());
+// Read and process files asynchronously
+// trying to make things efficient
+// starting with more intensive tasks
 
-// Read, minify and split the HTML template
-readFile(IN_HTML, 'utf8')
-	.then(html => {
-		minify(html, {
-			collapseBooleanAttributes: true,
-			collapseWhitespace: true,
-			removeAttributeQuotes: true,
-			removeEmptyAttributes: true,
-			removeOptionalTags: true,
-			removeRedundantAttributes: true
-		}).split("{}").forEach((chunk, index) =>
-			chunks[index * 2] = Buffer.from(chunk));
-		readyCallback();
-	});
+// Build the JS with esbuild
+build({
+	entryPoints: [IN_JS],
+	outfile: OUT_HTML,
+	bundle: true,
+	minify: true
+})
+.then(() => readFile(OUT_HTML))
+.then(buffer => {
+	chunks[6] = buffer.subarray(0, buffer.length - 2);
+	return openSync(OUT_HTML, 'w+');
+})
+.then(w => {
+	writer = w;
+	readyCallback();
+});
 
 // Build the CSS with esbuild
 build({
@@ -96,19 +103,54 @@ build({
 	readyCallback();
 });
 
-// Build the JS with esbuild
-build({
-		entryPoints: [IN_JS],
-		outfile: OUT_HTML,
-		bundle: true,
-		minify: true
+// Read and optionally encrypt data files
+readdir(DIR_DATA, { withFileTypes: true })
+	.then(directory => {
+		let allData = [];
+		for (const dirent of directory) {
+			if (dirent.isFile()) switch (extname(dirent.name)) {
+				case '.json':
+					// TODO: offer to encrypt
+				case '.aes':
+					++neededCallbacks;
+					readFile(join(DIR_DATA, dirent.name), 'utf8')
+						.then(data => {
+							allData.push(data);
+							chunks[5] = Buffer.from(`const LISTS=${JSON.stringify(allData)};`);
+							readyCallback();
+						});
+			}
+			else console.log(`Ignoring ${dirent.name}: is not a file.`);
+		}
 	})
-	.then(() => readFile(OUT_HTML))
-	.then(buffer => {
-		chunks[5] = buffer.subarray(0, buffer.length - 2);
-		return openSync(OUT_HTML, 'w+');
+	.catch(/* No wishlists :( */)
+
+// Read, minify and split the HTML template
+readFile(IN_HTML, 'utf8').then(html => {
+
+	html = minify(html, {
+		collapseBooleanAttributes: true,
+		collapseWhitespace: true,
+		removeAttributeQuotes: true,
+		removeEmptyAttributes: true,
+		removeOptionalTags: true,
+		removeRedundantAttributes: true
+	}).split("{}");
+
+	chunks[0] = Buffer.from(html[0]);
+	chunks[2] = Buffer.from(html[1]);
+	chunks[4] = Buffer.from(html[2]);
+	chunks[7] = Buffer.from(html[3]);
+
+	readyCallback();
+});
+
+// Read config file if it exists
+readFile('wishlist-config.json')
+	.then(config => {
+		config = JSON.parse(config);
+		if (typeof config.title === "string")
+			chunks[1] = Buffer.from(config.title);
 	})
-	.then(w => {
-		writer = w;
-		readyCallback();
-	});
+	.catch(/* No valid config file; use defaults */)
+	.finally(readyCallback);
