@@ -16,10 +16,19 @@ import { fileURLToPath } from 'url';
 import { minify } from 'html-minifier';
 import { build } from 'esbuild';
 
-const DIR_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../');
-const DIR_SRC  = join(DIR_ROOT, 'src/');
-const DIR_DATA = resolve('wishlists/');
-const DIR_OUT  = resolve('dist/');
+const CONFIG = await (async () => {
+	try {
+		return JSON.parse(await readFile('wishlist-config.json', 'utf8'));
+	} catch (e) {
+		console.log("Couldn't parse wishlist-config.json (or maybe it doesn't exist)");
+		console.log("Using default values.");
+		return {};
+	}
+})();
+
+const DIR_SRC  = join(dirname(fileURLToPath(import.meta.url)), '../src/');
+const DIR_DATA = resolve(CONFIG.wishlists ?? 'wishlists/');
+const DIR_OUT  = resolve(CONFIG.out ?? 'dist/');
 
 const IN_HTML  = join(DIR_SRC, 'index.html');
 const IN_JS    = join(DIR_SRC, 'app.js');
@@ -33,12 +42,12 @@ let writer;
 
 /** @type {number} */
 let callbacks = 0;
-let neededCallbacks = 4;
+let neededCallbacks = 3;
 
 /** @type {Array<Buffer>} */
 const chunks = [
 	null,					// HTML
-	Buffer.from("Wishlist"),// Title
+	Buffer.from(CONFIG.title ?? "Wishlist"),
 	null,					// HTML
 	null,					// Injected CSS
 	null,					// HTML
@@ -147,11 +156,11 @@ readFile(IN_HTML, 'utf8').then(html => {
 });
 
 // Read config file if it exists
-readFile('wishlist-config.json')
-	.then(config => {
-		config = JSON.parse(config);
-		if (typeof config.title === "string")
-			chunks[1] = Buffer.from(config.title);
-	})
-	.catch(err => console.log("No wishlist-config.json found. Using default values."))
-	.finally(readyCallback);
+// readFile('wishlist-config.json')
+// 	.then(config => {
+// 		config = JSON.parse(config);
+// 		if (typeof config.title === "string")
+// 			chunks[1] = Buffer.from(config.title);
+// 	})
+// 	.catch(err => console.log("No wishlist-config.json found. Using default values."))
+// 	.finally(readyCallback);
