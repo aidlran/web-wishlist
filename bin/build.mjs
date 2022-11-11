@@ -10,16 +10,16 @@
 
 import { openSync, writeSync, close } from 'fs';
 import { readdir, readFile, rm } from 'fs/promises';
-import { dirname, extname, join } from 'path';
+import { dirname, extname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 import { minify } from 'html-minifier';
 import { build } from 'esbuild';
 
 const DIR_ROOT = join(dirname(fileURLToPath(import.meta.url)), '../');
-const DIR_DATA = join(DIR_ROOT, 'wishlists/');
 const DIR_SRC  = join(DIR_ROOT, 'src/');
-const DIR_OUT  = join(DIR_ROOT, 'dist/');
+const DIR_DATA = resolve('wishlists/');
+const DIR_OUT  = resolve('dist/');
 
 const IN_HTML  = join(DIR_SRC, 'index.html');
 const IN_JS    = join(DIR_SRC, 'app.js');
@@ -59,6 +59,7 @@ function readyCallback()
 		}
 
 		for (const buffer of chunks) {
+			if (buffer == null) continue;
 			if (buffer instanceof Buffer) writeBuffer(buffer);
 			else if (buffer instanceof Array) for (const b of buffer) writeBuffer(b);
 			else throw "I can't write non-buffers!";
@@ -123,7 +124,7 @@ readdir(DIR_DATA, { withFileTypes: true })
 			else console.log(`Ignoring ${dirent.name}: is not a file.`);
 		}
 	})
-	.catch(/* No wishlists :( */)
+	.catch(err => console.log("No wishlists found!"));
 
 // Read, minify and split the HTML template
 readFile(IN_HTML, 'utf8').then(html => {
@@ -152,5 +153,5 @@ readFile('wishlist-config.json')
 		if (typeof config.title === "string")
 			chunks[1] = Buffer.from(config.title);
 	})
-	.catch(/* No valid config file; use defaults */)
+	.catch(err => console.log("No wishlist-config.json found. Using default values."))
 	.finally(readyCallback);
