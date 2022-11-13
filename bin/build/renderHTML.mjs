@@ -88,12 +88,12 @@ export function renderMenu(outDir, wishlists) {
     });
 }
 
-export function renderPage(outFile, wishlist) {
+export function renderWishlistPage(outFile, wishlist, nested = false) {
     onTemplateReady(() => {
         let output = replaceVariable(template, 'title', wishlist.name ?? "Wishlist");
         output = replaceVariable(output, 'head',
-            makeScriptLinkTag('wishlist'),
-            makeStyleLinkTag('common')
+            makeScriptLinkTag(`${nested ? '../' : ''}wishlist`),
+            makeStyleLinkTag(`${nested ? '../' : ''}common`)
         );
         output = replaceVariable(output, 'body', "");
         writeFile(outFile, minify(output, MINIFY_CONFIG));

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 import { build } from 'esbuild';
 
-import { renderMenu, renderPage } from './build/renderHTML.mjs';
+import { renderMenu, renderWishlistPage } from './build/renderHTML.mjs';
 
 const CONFIG = await (async () => {
 	try {
@@ -54,10 +54,10 @@ readdir(DIR_DATA, { withFileTypes: true })
 
 		switch (directory.length) {
 			case 0:
-				renderPage(join(DIR_OUT, 'index.html'), []);
+				renderWishlistPage(join(DIR_OUT, 'index.html'), []);
 				break;
 			case 1:
-				renderPage(join(DIR_OUT, 'index.html'), JSON.parse(await readFile(join(DIR_DATA, directory[0]), 'utf8')));
+				renderWishlistPage(join(DIR_OUT, 'index.html'), JSON.parse(await readFile(join(DIR_DATA, directory[0]), 'utf8')));
 				break;
 			default:
 				build(Object.assign(ESBUILD_OPTIONS, {
@@ -66,18 +66,20 @@ readdir(DIR_DATA, { withFileTypes: true })
 					]
 				}));
 				const MENU_DATA = [];
-				for (const FILE of directory) {
+				for (const FILE of directory) try {
 					const WISHLIST = JSON.parse(await readFile(join(DIR_DATA, FILE)));
 					WISHLIST.slug = basename(FILE, extname(FILE));
 					mkdir(join(DIR_OUT, WISHLIST.slug), { recursive: true })
-						.then(() => renderPage(join(DIR_OUT, WISHLIST.slug, 'index.html'), WISHLIST));
+						.then(() => renderWishlistPage(join(DIR_OUT, WISHLIST.slug, 'index.html'), WISHLIST, true));
 					MENU_DATA.push(WISHLIST);
+				} catch (error) {
+					console.log(`WARNING: Error parsing ${FILE}. Skipping. (Reason: ${error.message})`);
 				}
 				renderMenu(DIR_OUT, MENU_DATA);
 				break;
 		}
 	})
-	.catch(() => renderPage(join(DIR_OUT, 'index.html'), []));
+	.catch(console.error);
 
 // Build JS/CSS with esbuild
 // Menu.js is only built if there's multiple lists
