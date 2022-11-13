@@ -13,7 +13,8 @@ The goal of this project is to make a small, serverless, single-page web app cap
 - [ ] Encrypt script.
 - [ ] Decrypt script.
 - [ ] Decryption in the browser.
-- [ ] Frontend.
+- [ ] Menu view.
+- [ ] Wishlist view.
 
 ### Future
 

@@ -75,27 +75,33 @@ function makeStyleLinkTag(href) {
 }
 
 export function renderMenu(outDir, wishlists) {
-    onTemplateReady(() => {
-        let output = replaceVariable(template, 'title', "Wishlists");
-        output = replaceVariable(output, 'head', makeScriptLinkTag('menu'));
-        output = replaceVariable(output, 'body', (() => {
-            let wishlistsString = "";
-            for (const wishlist of wishlists)
-                wishlistsString += `<a href="${wishlist.slug}/">${wishlist.name}</a>`;
-            return wishlistsString;
-        })());
-        writeFile(join(outDir, 'index.html'), minify(output, MINIFY_CONFIG));
+    return new Promise(resolve => {
+        onTemplateReady(() => {
+            let output = replaceVariable(template, 'title', "Wishlists");
+            output = replaceVariable(output, 'head', makeScriptLinkTag('menu'));
+            output = replaceVariable(output, 'body', (() => {
+                let wishlistsString = "";
+                for (const wishlist of wishlists)
+                    wishlistsString += `<a href="${wishlist.slug}/">${wishlist.name}</a>`;
+                return wishlistsString;
+            })());
+            writeFile(join(outDir, 'index.html'), minify(output, MINIFY_CONFIG))
+                .then(resolve);
+        });
     });
 }
 
 export function renderWishlistPage(outFile, wishlist, nested = false) {
-    onTemplateReady(() => {
-        let output = replaceVariable(template, 'title', wishlist.name ?? "Wishlist");
-        output = replaceVariable(output, 'head',
-            makeScriptLinkTag(`${nested ? '../' : ''}wishlist`),
-            makeStyleLinkTag(`${nested ? '../' : ''}common`)
-        );
-        output = replaceVariable(output, 'body', "");
-        writeFile(outFile, minify(output, MINIFY_CONFIG));
+    return new Promise(resolve => {
+        onTemplateReady(() => {
+            let output = replaceVariable(template, 'title', wishlist.name ?? "Wishlist");
+            output = replaceVariable(output, 'head',
+                makeScriptLinkTag(`${nested ? '../' : ''}wishlist`),
+                makeStyleLinkTag(`${nested ? '../' : ''}common`)
+            );
+            output = replaceVariable(output, 'body', "");
+            writeFile(outFile, minify(output, MINIFY_CONFIG))
+                .then(resolve);
+        });
     });
 }
