@@ -4,6 +4,8 @@ The goal of this project is to make a small, serverless, single-page web app cap
 
 ## Roadmap
 
+### v1.0.0
+
 - [x] Build script.
 - [x] Init script.
 - [x] Set up a binary.
@@ -12,7 +14,11 @@ The goal of this project is to make a small, serverless, single-page web app cap
 - [ ] Decrypt script.
 - [ ] Decryption in the browser.
 - [ ] Frontend.
-- [ ] Adapt the GUI for wishlist editing. (stretch)
+
+### Future
+
+- [ ] Test suite.
+- [ ] Adapt the GUI for editing wishlists.
 
 ## Usage
 

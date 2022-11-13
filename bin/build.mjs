@@ -22,6 +22,12 @@ const DIR_SRC  = join(dirname(fileURLToPath(import.meta.url)), '../src/');
 const DIR_DATA = resolve(CONFIG.wishlists ?? 'wishlists/');
 const DIR_OUT  = resolve(CONFIG.out ?? 'dist/');
 
+const ESBUILD_OPTIONS = {
+	outdir: DIR_OUT,
+	bundle: true,
+	minify: true
+};
+
 // Clear OUT directory
 await readdir(DIR_OUT)
 	.then(async dirList => {
@@ -41,6 +47,7 @@ await readdir(DIR_OUT)
 readdir(DIR_DATA, { withFileTypes: true })
 	.then(async directory => {
 
+		// Filter down to JSON files and map to an array of file names
 		directory = directory
 			.filter(dirent => dirent.isFile() && extname(dirent.name) === '.json')
 			.map(dirent => dirent.name);
@@ -53,27 +60,30 @@ readdir(DIR_DATA, { withFileTypes: true })
 				renderPage(join(DIR_OUT, 'index.html'), JSON.parse(await readFile(join(DIR_DATA, directory[0]), 'utf8')));
 				break;
 			default:
-				const wishlists = [];
-				for (const wishlistFile of directory) {
-					const wishlist = JSON.parse(await readFile(join(DIR_DATA, wishlistFile)));
-					wishlist.slug = basename(wishlistFile, extname(wishlistFile));
-					mkdir(join(DIR_OUT, wishlist.slug), { recursive: true })
-						.then(() => renderPage(join(DIR_OUT, wishlist.slug, 'index.html'), wishlist));
-					wishlists.push(wishlist);
+				build(Object.assign(ESBUILD_OPTIONS, {
+					entryPoints: [
+						join(DIR_SRC, 'menu.js')
+					]
+				}));
+				const MENU_DATA = [];
+				for (const FILE of directory) {
+					const WISHLIST = JSON.parse(await readFile(join(DIR_DATA, FILE)));
+					WISHLIST.slug = basename(FILE, extname(FILE));
+					mkdir(join(DIR_OUT, WISHLIST.slug), { recursive: true })
+						.then(() => renderPage(join(DIR_OUT, WISHLIST.slug, 'index.html'), WISHLIST));
+					MENU_DATA.push(WISHLIST);
 				}
-				renderMenu(DIR_OUT, wishlists);
+				renderMenu(DIR_OUT, MENU_DATA);
+				break;
 		}
 	})
 	.catch(() => renderPage(join(DIR_OUT, 'index.html'), []));
 
 // Build JS/CSS with esbuild
-build({
+// Menu.js is only built if there's multiple lists
+build(Object.assign(ESBUILD_OPTIONS, {
 	entryPoints: [
-		join(DIR_SRC, 'menu.js'),
 		join(DIR_SRC, 'wishlist.js'),
-		join(DIR_SRC, 'common.css'),
-	],
-	outdir: DIR_OUT,
-	bundle: true,
-	minify: true
-});
+		join(DIR_SRC, 'common.css')
+	]
+}));
