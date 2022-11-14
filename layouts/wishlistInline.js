@@ -1,6 +1,6 @@
 document.head.appendChild((script => {
     script.addEventListener('load', () =>
-        Wishlist({wishlistData})
+        Wishlist.render({wishlistData})
     );
     script.src = '../wishlist.js';
     return script;

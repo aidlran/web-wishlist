@@ -93,4 +93,4 @@ readdir(DIR_WISHLISTS, { withFileTypes: true })
 	});
 
 esbuild('common.css');
-esbuild({ bundle: false }, 'wishlist.js');
+esbuild({ globalName: 'Wishlist' }, 'wishlist.js');
