@@ -2,7 +2,7 @@
   "name": "web-wishlist",
   "version": "1.0.0-PREVIEW",
   "description": "Encryptable web wishlist.",
-  "license": "LGPL-3.0-only",
+  "license": "MIT",
   "private": true,
   "author": "Aidan Loughran <aidlo.dev@pm.me> (https://aidlran.github.io)",
   "homepage": "https://github.com/aidlran/wishlist",
