@@ -9,19 +9,13 @@ import readJSON from './service/readJSON.mjs';
 import { renderMenu, renderWishlistPage } from './service/renderHTML.mjs';
 
 // Clear OUT directory
-await readdir(DIR_OUT)
-	.catch(async err => {
-		await mkdir(DIR_OUT, {
-			recursive: true
-		});
+await rm(DIR_OUT, { recursive: true })
+	.catch(() => {
+		/* directory doesn't exist */
 	})
-	.then(async dirList => {
-		for (const dirent of dirList) {
-			await rm(join(DIR_OUT, dirent), {
-				recursive: true
-			});
-		}
-	});
+	.finally(() =>
+		mkdir(DIR_OUT, { recursive: true })
+	);
 
 // Process wishlists
 readdir(DIR_WISHLISTS, { withFileTypes: true })
