@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
 import { cp, readdir } from 'fs/promises';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 
-const DEFAULT_DIR = join(dirname(fileURLToPath(import.meta.url)), '../default');
+import { DIR_DEFAULT } from './service/config.mjs';
 
-readdir(DEFAULT_DIR).then(directory => {
+readdir(DIR_DEFAULT).then(directory => {
 	for (const name of directory)
-		cp(join(DEFAULT_DIR, name), join('./', name), {recursive: true});
+		cp(join(DIR_DEFAULT, name), join('./', name), {recursive: true});
 });

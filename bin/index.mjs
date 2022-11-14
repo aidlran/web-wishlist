@@ -4,13 +4,13 @@ import { readdir } from 'fs';
 import { basename, dirname, extname } from 'path';
 import { fileURLToPath } from 'url';
 
-readdir(dirname(fileURLToPath(import.meta.url)), (err, verbs) => {
+readdir(dirname(fileURLToPath(import.meta.url)), { withFileTypes: true }, (err, verbs) => {
 
 	if (err) throw err;
 
 	verbs = verbs
-		.filter(filename => filename !== 'index.mjs')
-		.map(filename => basename(filename, extname(filename)));
+		.filter(file => file.isFile() && file.name !== 'index.mjs')
+		.map(file => basename(file.name, extname(file.name)));
 
 	if (process.argv.length < 3) {
 		console.log("No verb provided.");

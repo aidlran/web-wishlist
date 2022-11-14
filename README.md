@@ -15,11 +15,27 @@ The goal of this project is to make a small, serverless, single-page web app cap
 - [ ] Decryption in the browser.
 - [ ] Menu view.
 - [ ] Wishlist view.
+- [ ] `wishlist-config.json` schema.
+- [ ] Wishlist file schema.
+
+### Wishlist View
+
+- [ ] Images.
+- [ ] Hyperlinks.
+- [ ] Dynamic pricing with APIs or web scraping.
+- [ ] Quantity.
+- [ ] Custom values.
+- [ ] Candidates.
+- [ ] Previously owned model (for upgrades).
+- [ ] Categories.
 
 ### Future
 
 - [ ] Test suite.
 - [ ] Adapt the GUI for editing wishlists.
+- [ ] Localisation (just US/GB for now).
+- [ ] IDE extension(s) to auto-map JSON schemas.
+- [ ] Potentially migrate binaries to a faster language.
 
 ## Usage
 
