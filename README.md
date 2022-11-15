@@ -10,9 +10,9 @@ The goal of this project is to make a small, serverless, single-page web app cap
 - [x] Init script.
 - [x] Set up a binary.
 - [x] Write a GitHub workflow sample and deploy on my website.
+- [X] Decryption in the browser.
 - [ ] Encrypt script.
 - [ ] Decrypt script.
-- [ ] Decryption in the browser.
 - [ ] Menu view.
 - [ ] Wishlist view.
 - [ ] `wishlist-config.json` schema.
