@@ -1,0 +1,49 @@
+:root {
+  --c-bg1: #111;
+  --c-bg2: #333;
+  --c-outline: #444;
+  --c-txt: #eee;
+}
+
+html {
+  background: var(--c-bg1);
+  color: var(--c-txt);
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  margin: 0;
+}
+
+main {
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+}
+
+main > * {
+  margin: 20px 0;
+}
+
+h1 {
+  font-size: 26pt;
+}
+
+a {
+  display: block;
+  padding: 10px 20px;
+  height: 80px;
+  border: 2px solid var(--c-outline);
+  border-radius: 10px;
+  background: var(--c-bg2);
+  color: var(--c-txt);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 22pt;
+  transition: 0.1s ease-out background;
+}
+
+a:hover {
+  background: var(--c-outline);
+}

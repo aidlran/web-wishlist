@@ -92,5 +92,5 @@ readdir(DIR_WISHLISTS, { withFileTypes: true })
 		}
 	});
 
-esbuild('common.css');
+esbuild('common.css', 'menu.css', 'wishlist.css');
 esbuild({ globalName: 'Wishlist' }, 'wishlist.js');

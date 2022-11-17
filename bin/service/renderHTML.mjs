@@ -45,13 +45,20 @@ export function renderMenu(outDir, wishlists) {
 				minify(
 					template
 						.replace('{title}', TITLE ?? "Wishlists")
-						.replace('{head}', "<script src=../menu.js></script>")
-						.replace('{body}', (() => {
-							let wishlistsString = "";
-							for (const wishlist of wishlists)
+						.replace('{head}',
+							"<link rel=\"stylesheet\" href=\"common.css\">" +
+							"<link rel=\"stylesheet\" href=\"menu.css\">" +
+							"<script src=\"menu.js\"></script>"
+						)
+						.replace('{body}',
+							"<h1>Wishlists</h1>" + 
+							(() => {
+								let wishlistsString = "";
+								for (const wishlist of wishlists)
 									wishlistsString += `<a href="${wishlist.slug}/">${wishlist.name}</a>`;
-							return wishlistsString;
-						})()),
+								return wishlistsString;
+							})()
+						),
 					MINIFY_CONFIG
 				)
 			)
@@ -68,7 +75,9 @@ export function renderWishlistPage(outDir, wishlist, nested = false) {
 						.replace('{title}', wishlist.name ?? "Wishlist")
 						.replace('{head}',
 							`<script>${await renderWishlistInlineJS(wishlist)}</script>` +
-							"<link rel=stylesheet href=../common.css>")
+							"<link rel=\"stylesheet\" href=\"../common.css\">" +
+							"<link rel=\"stylesheet\" href=\"../wishlist.css\">"
+						)
 						.replace('{body}', ""),
 					MINIFY_CONFIG
 				)

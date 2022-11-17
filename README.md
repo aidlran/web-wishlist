@@ -36,6 +36,8 @@ The goal of this project is to make a small, serverless, single-page web app cap
 - [ ] Localisation (just US/GB for now).
 - [ ] IDE extension(s) to auto-map JSON schemas.
 - [ ] Potentially migrate binaries to a faster language.
+- [ ] YAML support.
+- [ ] Native NodeJS `crypto` and browser `WebCrypto` implementations.
 
 ## Usage
 
