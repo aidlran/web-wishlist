@@ -1,4 +1,5 @@
-import { AES, enc, format } from 'crypto-js';
+import CryptoJS from 'crypto-js';
+const { AES, enc, format } = CryptoJS;
 
 /**
  * Decrypts a wishlist object.

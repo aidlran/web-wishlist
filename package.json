@@ -11,11 +11,13 @@
   "bin": "./bin/index.mjs",
   "scripts": {
     "build": "./bin/build.mjs",
+    "decrypt": "./bin/crypt.mjs decrypt",
+    "encrypt": "./bin/crypt.mjs encrypt",
     "init": "./bin/init.mjs"
   },
   "dependencies": {
     "crypto-js": "4.1.1",
-    "esbuild": "0.15.12",
+    "esbuild": "0.15.15",
     "html-minifier": "4.0.0"
   }
 }

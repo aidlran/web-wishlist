@@ -1,4 +1,4 @@
-import { decrypt } from './crypto';
+import { decrypt } from './crypto.mjs';
 
 export function Unlocker(wishlist) {
 
