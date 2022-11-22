@@ -152,21 +152,8 @@ A string with a link to find the item online.
 
 ## Roadmap
 
-### v1.0.0
-
-- [x] Build script.
-- [x] Init script.
-- [x] Set up a binary.
-- [x] Write a GitHub workflow sample and deploy on my website.
-- [x] Decryption in the browser.
-- [x] Encrypt and decrypt via binary.
-- [x] Menu view.
-- [x] Wishlist view.
-- [ ] JSON schemas.
-
 ### Wishlist View
 
-- [x] Hyperlinks.
 - [ ] Images.
 - [ ] Quantity.
 - [ ] Custom key pair values.
@@ -189,7 +176,8 @@ A string with a link to find the item online.
 - [ ] Dynamic pricing with APIs or web scraping.
 - [ ] Localisation.
   - [ ] Currency conversion.
-- [ ] IDE extension(s) to auto-map JSON schemas.
+- [ ] JSON schemas.
+  - [ ] IDE extension(s) to auto-map.
 - [ ] Potentially migrate binaries to a faster language.
 - [ ] YAML support.
 - [ ] Native NodeJS `crypto` and browser `WebCrypto` implementations.

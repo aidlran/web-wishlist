@@ -1,7 +1,7 @@
 {
   "name": "web-wishlist",
-  "version": "1.0.0-PREVIEW",
-  "description": "Encryptable web wishlist.",
+  "version": "1.0.0",
+  "description": "Encryptable web wishlists for static sites.",
   "license": "MIT",
   "private": true,
   "author": "Aidan Loughran <aidlo.dev@pm.me> (https://aidlran.github.io)",
