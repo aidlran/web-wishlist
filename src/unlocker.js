@@ -34,6 +34,7 @@ export function Unlocker(wishlist) {
 				})(form.appendChild(document.createElement('input')));
 			})(overlay.appendChild(document.createElement('form')));
 		})(document.body.appendChild(document.createElement('div')));
+		INPUT.focus();
 	});
 };
 

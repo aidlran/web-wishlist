@@ -37,7 +37,7 @@ const onTemplateReady = (() => {
 
 })();
 
-export function renderMenu(outDir, wishlists) {
+export async function renderMenu(outDir, wishlists) {
 	return onTemplateReady()
 		.then(async template =>
 			writeFile(
@@ -51,13 +51,14 @@ export function renderMenu(outDir, wishlists) {
 							"<script src=\"menu.js\"></script>"
 						)
 						.replace('{body}',
-							"<h1>Wishlists</h1>" + 
+							"<main><h1>Wishlists</h1>" + 
 							(() => {
 								let wishlistsString = "";
 								for (const wishlist of wishlists)
 									wishlistsString += `<a href="${wishlist.slug}/">${wishlist.name}</a>`;
 								return wishlistsString;
-							})()
+							})() +
+							"</main>"
 						),
 					MINIFY_CONFIG
 				)
@@ -65,7 +66,7 @@ export function renderMenu(outDir, wishlists) {
 		);
 }
 
-export function renderWishlistPage(outDir, wishlist, nested = false) {
+export async function renderWishlistPage(outDir, wishlist, nested = false) {
 	return onTemplateReady()
 		.then(async template =>
 			writeFile(
@@ -84,3 +85,8 @@ export function renderWishlistPage(outDir, wishlist, nested = false) {
 			)
 		);
 }
+
+export default {
+	renderMenu,
+	renderWishlistPage
+};

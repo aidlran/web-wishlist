@@ -132,13 +132,23 @@ A string containing encrypted data.
 ### `items`
 
 An array of objects representing each item in the list.  
-Properties of item objects follow.
+Properties of item objects follow, and all are optional.
 
 #### `item.name`
 
 A string representing the name of the item
 
-(More stuff will be implemented)
+#### `item.description`
+
+A string containing a longer description of the item.
+
+#### `item.price`
+
+A string representing the price of the item.
+
+#### `item.link`
+
+A string with a link to find the item online.
 
 ## Roadmap
 
@@ -151,14 +161,13 @@ A string representing the name of the item
 - [x] Decryption in the browser.
 - [x] Encrypt and decrypt via binary.
 - [x] Menu view.
-- [ ] Wishlist view.
+- [x] Wishlist view.
 - [ ] JSON schemas.
 
 ### Wishlist View
 
+- [x] Hyperlinks.
 - [ ] Images.
-- [ ] Hyperlinks.
-- [ ] Dynamic pricing with APIs or web scraping.
 - [ ] Quantity.
 - [ ] Custom key pair values.
 - [ ] Candidates.
@@ -177,7 +186,9 @@ A string representing the name of the item
 - [ ] Test suite.
 - [ ] Adapt the GUI for editing wishlists.
 - [ ] Functionality on my website similar to [link-lock](https://jstrieb.github.io/link-lock/).
-- [ ] Localisation (just US/GB for now).
+- [ ] Dynamic pricing with APIs or web scraping.
+- [ ] Localisation.
+  - [ ] Currency conversion.
 - [ ] IDE extension(s) to auto-map JSON schemas.
 - [ ] Potentially migrate binaries to a faster language.
 - [ ] YAML support.

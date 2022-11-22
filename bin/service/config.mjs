@@ -7,6 +7,7 @@ export const DIR_MODULE_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..
 export const DIR_DEFAULT = join(DIR_MODULE_ROOT, 'default/');
 export const DIR_LAYOUTS = join(DIR_MODULE_ROOT, 'layouts/');
 export const DIR_SRC = join(DIR_MODULE_ROOT, 'src/');
+export const DIR_STATIC = join(DIR_MODULE_ROOT, 'static/');
 
 const CONFIG = Object.assign(
 	await readJSON(join(DIR_DEFAULT, 'wishlist-config.json')),
@@ -26,6 +27,8 @@ export default {
 	DIR_LAYOUTS,
 	DIR_MODULE_ROOT,
 	DIR_OUT,
+	DIR_SRC,
+	DIR_STATIC,
 	DIR_WISHLISTS,
 	TITLE
 };

@@ -1,0 +1,9 @@
+html {
+  background: var(--c-bg1);
+  color: var(--c-txt);
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 26pt;
+}

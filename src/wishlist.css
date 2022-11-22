@@ -1,0 +1,126 @@
+:root {
+  --c-bg1: #eee;
+  --c-outline: #aaa;
+  --c-txt: #333;
+  --c-txt-2: #555;
+  --c-txt-3: #777;
+  --c-hover: #ddd;
+}
+
+/*!
+ * Bootstrap v3.4.1 (https://getbootstrap.com/)
+ * Copyright 2011-2019 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+@font-face {
+  font-family: "Glyphicons Halflings";
+  src: url("./fonts/glyphicons-halflings-regular.eot");
+  src: url("./fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"),
+       url("./fonts/glyphicons-halflings-regular.woff2") format("woff2"),
+       url("./fonts/glyphicons-halflings-regular.woff") format("woff"),
+       url("./fonts/glyphicons-halflings-regular.ttf") format("truetype"),
+       url("./fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+}
+
+.glyphicon {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: "Glyphicons Halflings";
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon.link:after {
+  content: "\e144";
+}
+
+header {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  margin: 0;
+}
+
+.overlay {
+  display: flex;
+}
+
+.unlock-form {
+  margin: auto;
+}
+
+.unlock-form input {
+  font-size: 16pt;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid var(--c-outline);
+}
+
+.unlock-form input[type=password] {
+  width: 160px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.unlock-form input[type=submit] {
+  border-left: 0;
+  cursor: pointer;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.wishlist-container {
+  margin: auto;
+  width: 100%;
+  max-width: 500px;
+}
+
+.wishlist-item {
+  display: block;
+  margin: 20px 0;
+  padding: 0;
+  height: 120px;
+  border: 1px solid var(--c-outline);
+  border-radius: 11px;
+  color: var(--c-txt);
+  text-decoration: none;
+}
+
+.wishlist-item > * {
+  margin: 10px;
+}
+
+.wishlist-item h2 {
+  margin: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wishlist-item-description {
+  color: var(--c-txt-2);
+}
+
+.wishlist-item-data {
+  color: var(--c-txt-3);
+  font-style: italic;
+}
+
+.wishlist-item-data > *:not(:last-child):after {
+  content: " • ";
+}
+
+.wishlist-item-data a {
+  padding: 2px;
+}
+
+.wishlist-item-data .glyphicon.link:after {
+  padding-left: 3px;
+}
