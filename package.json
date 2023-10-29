@@ -1,12 +1,12 @@
 {
   "name": "web-wishlist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Encryptable web wishlists for static sites.",
   "license": "MIT",
   "private": true,
-  "author": "Aidan Loughran <aidlo.dev@pm.me> (https://aidlran.github.io)",
-  "homepage": "https://github.com/aidlran/wishlist",
-  "bugs": "https://github.com/aidlran/wishlist/issues",
+  "author": "Aidan Loughran",
+  "homepage": "https://github.com/aidlran/web-wishlist",
+  "bugs": "https://github.com/aidlran/web-wishlist/issues",
   "repository": "github:aidlran/wishlist",
   "bin": "./bin/index.mjs",
   "scripts": {
@@ -16,8 +16,8 @@
     "init": "./bin/init.mjs"
   },
   "dependencies": {
-    "crypto-js": "4.1.1",
-    "esbuild": "0.15.15",
-    "html-minifier": "4.0.0"
+    "crypto-js": "^4.2.0",
+    "esbuild": "^0.19.5",
+    "html-minifier": "^4.0.0"
   }
 }
